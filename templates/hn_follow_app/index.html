@@ -1,0 +1,7 @@
+{% extends 'hn_follow_app/base.html' %}
+{% block content %}
+{% for hn_user, details in hn_users.items %}
+    <p>{{ hn_user }}</p>
+    <p>{{ details }}</p>
+{% endfor %}
+{% endblock content %}
