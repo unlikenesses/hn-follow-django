@@ -1,0 +1,49 @@
+{% extends 'hn_follow_app/base.html' %}
+{% block content %}
+<div>
+    <table class="table-auto border border-slate-400">
+        <thead>
+            <tr>
+                <th class="border border-slate-300 p-2">Username</th>
+                <th class="border border-slate-300 p-2">Notes</th>
+                <th class="border border-slate-300 p-2">Added</th>
+                <th class="border border-slate-300 p-2"></th>
+                <th class="border border-slate-300 p-2"></th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for hn_user in hn_users %}
+            <tr>
+                <td class="border border-slate-300 p-2">
+                    <a href="" class="underline">
+                        {{ hn_user.username }}
+                    </a>
+                </td>
+                <td class="border border-slate-300 p-2">{{ hn_user.notes }}</td>
+                <td class="border border-slate-300 p-2">{{ hn_user.created }}</td>
+                <td class="border border-slate-300 p-2">
+                    <a href="">Edit</a>
+                </td>
+                <td class="border border-slate-300 p-2">
+                    <a href="">Delete</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+<div>
+    <h4>Add User</h4>
+    {% if may_add_more %}
+        <form action="users" method="POST">
+            {% csrf_token %} 
+            {{ form.as_div }}
+            <div>
+                <input type="submit" value="Add User">
+            </div>
+        </form>
+    {% else %}
+        <p>You have reached your maximum allowable number of HN users. To add more upgrade your plan or delete one or more existing users.</p>
+    {% endif %}
+</div>
+{% endblock content %}

@@ -26,15 +26,15 @@
         
                         <!-- Navigation Links -->
                         <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                            <x-nav-link :href="route('stream')" :active="request()->routeIs('stream')">
+                            <a href="{% url 'hn_follow_app:index' %}" class="inline-flex items-center px-1 pt-1 border-b-2 border-orange-400 text-sm font-medium leading-5 text-gray-900 focus:outline-none focus:border-orange-700 transition duration-150 ease-in-out">
                                 Stream
-                            </x-nav-link>
-                            <x-nav-link :href="route('hn-users')" :active="request()->routeIs('hn-users')">
+                            </a>
+                            <a href="{% url 'hn_follow_app:users' %}" class="inline-flex items-center px-1 pt-1 border-b-2 border-orange-400 text-sm font-medium leading-5 text-gray-900 focus:outline-none focus:border-orange-700 transition duration-150 ease-in-out">
                                 HN Users
-                            </x-nav-link>
-                            <x-nav-link :href="route('clear-cache')" :active="request()->routeIs('clear-cache')">
+                            </a>
+                            <a href="" class="inline-flex items-center px-1 pt-1 border-b-2 border-orange-400 text-sm font-medium leading-5 text-gray-900 focus:outline-none focus:border-orange-700 transition duration-150 ease-in-out">
                                 Clear Cache
-                            </x-nav-link>
+                            </a>
                         </div>
                     </div>
         
