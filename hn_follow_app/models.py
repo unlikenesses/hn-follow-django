@@ -15,7 +15,7 @@ class HnUser(models.Model):
 class HnSubmission(models.Model):
     id = models.IntegerField(null=False, primary_key=True)
     text = models.TextField(null=True)
-    time = models.IntegerField(null=False)
+    time = models.CharField(max_length=32, null=False)
     type = models.CharField(max_length=16, null=False)
     by = models.CharField(max_length=200, null=False)
     created = models.DateTimeField(auto_now_add=True)

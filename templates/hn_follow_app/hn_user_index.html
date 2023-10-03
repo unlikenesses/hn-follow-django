@@ -1,49 +1,52 @@
 {% extends 'hn_follow_app/base.html' %}
+{% block header %}HN Users{% endblock header %}
 {% block content %}
-<div>
-    <table class="table-auto border border-slate-400">
-        <thead>
-            <tr>
-                <th class="border border-slate-300 p-2">Username</th>
-                <th class="border border-slate-300 p-2">Notes</th>
-                <th class="border border-slate-300 p-2">Added</th>
-                <th class="border border-slate-300 p-2"></th>
-                <th class="border border-slate-300 p-2"></th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for hn_user in hn_users %}
-            <tr>
-                <td class="border border-slate-300 p-2">
-                    <a href="" class="underline">
-                        {{ hn_user.username }}
-                    </a>
-                </td>
-                <td class="border border-slate-300 p-2">{{ hn_user.notes }}</td>
-                <td class="border border-slate-300 p-2">{{ hn_user.created }}</td>
-                <td class="border border-slate-300 p-2">
-                    <a href="">Edit</a>
-                </td>
-                <td class="border border-slate-300 p-2">
-                    <a href="">Delete</a>
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-</div>
-<div>
-    <h4>Add User</h4>
-    {% if may_add_more %}
-        <form action="users" method="POST">
-            {% csrf_token %} 
-            {{ form.as_div }}
-            <div>
-                <input type="submit" value="Add User">
-            </div>
-        </form>
-    {% else %}
-        <p>You have reached your maximum allowable number of HN users. To add more upgrade your plan or delete one or more existing users.</p>
-    {% endif %}
+<div class="flex justify-between">
+    <div>
+        <table class="table-auto border border-slate-400">
+            <thead>
+                <tr>
+                    <th class="border border-slate-300 p-2">Username</th>
+                    <th class="border border-slate-300 p-2">Notes</th>
+                    <th class="border border-slate-300 p-2">Added</th>
+                    <th class="border border-slate-300 p-2"></th>
+                    <th class="border border-slate-300 p-2"></th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for hn_user in hn_users %}
+                <tr>
+                    <td class="border border-slate-300 p-2">
+                        <a href="" class="underline">
+                            {{ hn_user.username }}
+                        </a>
+                    </td>
+                    <td class="border border-slate-300 p-2">{{ hn_user.notes }}</td>
+                    <td class="border border-slate-300 p-2">{{ hn_user.created }}</td>
+                    <td class="border border-slate-300 p-2">
+                        <a href="">Edit</a>
+                    </td>
+                    <td class="border border-slate-300 p-2">
+                        <a href="">Delete</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div>
+        <h4>Add User</h4>
+        {% if may_add_more %}
+            <form action="users" method="POST">
+                {% csrf_token %} 
+                {{ form.as_div }}
+                    <button type="submit" class="inline-flex items-center px-4 py-2 bg-orange-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-orange-700 active:bg-orange-700 focus:outline-none focus:border-orange-700 focus:ring ring-orange-300 disabled:opacity-25 transition ease-in-out duration-150">
+                        Add User
+                    </button>
+            </form>
+        {% else %}
+            <p>You have reached your maximum allowable number of HN users. To add more upgrade your plan or delete one or more existing users.</p>
+        {% endif %}
+    </div>
 </div>
 {% endblock content %}

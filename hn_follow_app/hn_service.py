@@ -1,4 +1,5 @@
 import requests, json
+from datetime import datetime
 from .models import HnUser, HnSubmission
 
 class HnService:
@@ -28,16 +29,16 @@ class HnService:
             try:
                 submission = self.getSubmissionFromDb(submissionId)
             except HnSubmission.DoesNotExist:
-                submission = self.getSubmissionFromAPI(submissionId)
+                submissionFromApi = self.getSubmissionFromAPI(submissionId)
                 # Save it in the db:
-                submissionToSave = HnSubmission(
+                submission = HnSubmission(
                     id=submissionId,
-                    text=submission.get('text'),
-                    time=submission['time'],
-                    type=submission['type'],
-                    by=submission['by'],
+                    text=submissionFromApi.get('text'),
+                    time=datetime.utcfromtimestamp(submissionFromApi['time']).strftime('%Y-%m-%d %H:%M:%S'),
+                    type=submissionFromApi['type'],
+                    by=submissionFromApi['by'],
                 )
-                submissionToSave.save()
+                submission.save()
             submissions.append(submission)
 
         return submissions

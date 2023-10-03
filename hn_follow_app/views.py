@@ -24,7 +24,6 @@ def submissions(request):
     numPages = math.ceil(numSubmitted / perPage)
     offset = (page-1) * perPage
     subset = submitted[offset:offset+perPage]
-    # subset = [37705848, 37702627, 37699954, 37699861, 37695169, 37672860, 37672803, 37665865, 37665845, 37659329]
     submissions = hn_service.getSubmissions(subset)
 
     prev = None

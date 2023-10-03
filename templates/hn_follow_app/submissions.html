@@ -1,4 +1,4 @@
-<p>Num Pages: {{ numPages }}</p>
+<p>Page {{ page }} of {{ numPages }}</p>
 {% for submission in submissions %}
 <div class="rounded-md shadow-md p-6 border-gray-300 mb-4">
     <p class="mb-2 text-gray-600 flex items-center pt-1 pb-3">
@@ -29,7 +29,7 @@
     {% endif %}
     <p class="mt-2 text-sm text-gray-500">
         <a href="{{ link_url }}{{ submission.id }}" target="_blank" class="hover:text-orange-500">
-            {{ submission.time }} - {{ submission.time|date:'d M Y' }}
+            {{ submission.time }}
         </a>
     </p>
 </div>

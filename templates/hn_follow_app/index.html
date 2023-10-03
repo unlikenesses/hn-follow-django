@@ -1,4 +1,8 @@
 {% extends 'hn_follow_app/base.html' %}
+{% block header %}Stream{% endblock header %}
 {% block content %}
-    <div id="submissions" hx-get="/submissions?page={{ page }}" hx-trigger="load"></div>
+    {% load static %}
+    <div id="submissions" hx-get="/submissions?page={{ page }}" hx-trigger="load">
+        <img src="{% static 'images/spinner.svg' %}" alt="Loading..." class="htmx-indicator">
+    </div>
 {% endblock content %}
