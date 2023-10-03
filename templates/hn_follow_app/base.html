@@ -18,7 +18,7 @@
                     <div class="flex">
                         <!-- Logo -->
                         <div class="shrink-0 flex items-center">
-                            <a href="/">
+                            <a href="{% url 'hn_follow_app:index' %}">
                                 <span class="text-3xl text-orange-500">HN</span>
                                 <span class="text-3xl text-gray-500">follow</span>
                             </a>
@@ -78,15 +78,17 @@
             <!-- Responsive Navigation Menu -->
             <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
                 <div class="pt-2 pb-3 space-y-1">
-                    <x-responsive-nav-link :href="route('stream')" :active="request()->routeIs('stream')">
-                        Stream
-                    </x-responsive-nav-link>
-                    <x-responsive-nav-link :href="route('hn-users')" :active="request()->routeIs('hn-users')">
-                        HN Users
-                    </x-responsive-nav-link>
-                    <x-responsive-nav-link :href="route('clear-cache')" :active="request()->routeIs('clear-cache')">
-                        Clear Cache
-                    </x-responsive-nav-link>
+                    <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                        <a href="{% url 'hn_follow_app:index' %}" class="'block pl-3 pr-4 py-2 border-l-4 border-orange-400 text-base font-medium text-orange-700 bg-orange-50 focus:outline-none focus:text-orange-800 focus:bg-orange-100 focus:border-orange-700 transition duration-150 ease-in-out">
+                            Stream
+                        </a>
+                        <a href="{% url 'hn_follow_app:users' %}" class="'block pl-3 pr-4 py-2 border-l-4 border-orange-400 text-base font-medium text-orange-700 bg-orange-50 focus:outline-none focus:text-orange-800 focus:bg-orange-100 focus:border-orange-700 transition duration-150 ease-in-out">
+                            HN Users
+                        </a>
+                        <a href="" class="'block pl-3 pr-4 py-2 border-l-4 border-orange-400 text-base font-medium text-orange-700 bg-orange-50 focus:outline-none focus:text-orange-800 focus:bg-orange-100 focus:border-orange-700 transition duration-150 ease-in-out">
+                            Clear Cache
+                        </a>
+                    </div>
                 </div>
         
                 <!-- Responsive Settings Options -->

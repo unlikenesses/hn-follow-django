@@ -1,4 +1,4 @@
-import json, ast
+import json, math
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from .models import HnUser
@@ -6,24 +6,45 @@ from .forms import AddHnUserForm
 from .hn_service import HnService
 
 def index(request):
+    page = request.GET.get('page', 1)
+    return render(request, 'hn_follow_app/index.html', {
+        'page': page,
+    })
+
+def submissions(request):
+    page = int(request.GET.get('page', 1))
+    perPage = 5
+
     hn_service = HnService()
 
     # Get all HN users submission IDs, sorted
     hn_users = HnUser.objects.values_list('username', flat=True)
     submitted = hn_service.getAllSubmitted(hn_users)
-    # raise Exception(submitted)
-
-    # Get last x submissions from this list
-    subset = submitted[:10]
+    numSubmitted = len(submitted)
+    numPages = math.ceil(numSubmitted / perPage)
+    offset = (page-1) * perPage
+    subset = submitted[offset:offset+perPage]
     # subset = [37705848, 37702627, 37699954, 37699861, 37695169, 37672860, 37672803, 37665865, 37665845, 37659329]
     submissions = hn_service.getSubmissions(subset)
+
+    prev = None
+    if page > 1:
+        prev = page-1
+
+    next = None
+    if page < numPages:
+        next = page+1
 
     context = {
         'submissions': submissions,
         'link_url': 'https://news.ycombinator.com/item?id=',
+        'page': page,
+        'prev': prev,
+        'next': next,
+        'numPages': numPages,
     }
 
-    return render(request, 'hn_follow_app/index.html', context)
+    return render(request, 'hn_follow_app/submissions.html', context)
 
 def hn_user_index(request):
     if request.method == 'POST':
