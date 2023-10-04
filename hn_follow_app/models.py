@@ -1,5 +1,6 @@
 from django.db import models
 
+
 class HnUser(models.Model):
     username = models.CharField(max_length=200)
     about = models.TextField(null=True)
@@ -11,7 +12,8 @@ class HnUser(models.Model):
 
     def __str__(self):
         return self.username
-    
+
+
 class HnSubmission(models.Model):
     id = models.IntegerField(null=False, primary_key=True)
     text = models.TextField(null=True)
@@ -22,7 +24,7 @@ class HnSubmission(models.Model):
 
     def __str__(self):
         if self.text is None:
-            text = ''
+            text = ""
         else:
             text = self.text[:50]
-        return str(self.id)+': '+text+' ('+self.by+')'
+        return str(self.id) + ": " + text + " (" + self.by + ")"

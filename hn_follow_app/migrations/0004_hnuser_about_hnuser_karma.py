@@ -4,20 +4,19 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('hn_follow_app', '0003_hnuser_created_hnuser_notes_hnuser_updated'),
+        ("hn_follow_app", "0003_hnuser_created_hnuser_notes_hnuser_updated"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='hnuser',
-            name='about',
+            model_name="hnuser",
+            name="about",
             field=models.TextField(null=True),
         ),
         migrations.AddField(
-            model_name='hnuser',
-            name='karma',
+            model_name="hnuser",
+            name="karma",
             field=models.IntegerField(null=True),
         ),
     ]

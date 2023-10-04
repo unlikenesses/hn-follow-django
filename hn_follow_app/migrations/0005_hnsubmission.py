@@ -4,21 +4,20 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('hn_follow_app', '0004_hnuser_about_hnuser_karma'),
+        ("hn_follow_app", "0004_hnuser_about_hnuser_karma"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='HnSubmission',
+            name="HnSubmission",
             fields=[
-                ('id', models.IntegerField(primary_key=True, serialize=False)),
-                ('text', models.TextField()),
-                ('time', models.IntegerField()),
-                ('type', models.CharField(max_length=16)),
-                ('by', models.CharField(max_length=200)),
-                ('created', models.DateTimeField(auto_now_add=True)),
+                ("id", models.IntegerField(primary_key=True, serialize=False)),
+                ("text", models.TextField()),
+                ("time", models.IntegerField()),
+                ("type", models.CharField(max_length=16)),
+                ("by", models.CharField(max_length=200)),
+                ("created", models.DateTimeField(auto_now_add=True)),
             ],
         ),
     ]

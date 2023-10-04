@@ -4,15 +4,14 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('hn_follow_app', '0006_alter_hnsubmission_text'),
+        ("hn_follow_app", "0006_alter_hnsubmission_text"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='hnsubmission',
-            name='time',
+            model_name="hnsubmission",
+            name="time",
             field=models.CharField(max_length=32),
         ),
     ]

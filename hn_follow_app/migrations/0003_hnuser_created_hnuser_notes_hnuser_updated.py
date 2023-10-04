@@ -5,26 +5,27 @@ import django.utils.timezone
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('hn_follow_app', '0002_hnuser_submissions'),
+        ("hn_follow_app", "0002_hnuser_submissions"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='hnuser',
-            name='created',
-            field=models.DateTimeField(auto_now_add=True, default=django.utils.timezone.now),
+            model_name="hnuser",
+            name="created",
+            field=models.DateTimeField(
+                auto_now_add=True, default=django.utils.timezone.now
+            ),
             preserve_default=False,
         ),
         migrations.AddField(
-            model_name='hnuser',
-            name='notes',
+            model_name="hnuser",
+            name="notes",
             field=models.TextField(null=True),
         ),
         migrations.AddField(
-            model_name='hnuser',
-            name='updated',
+            model_name="hnuser",
+            name="updated",
             field=models.DateTimeField(auto_now=True),
         ),
     ]
