@@ -79,3 +79,15 @@ def hn_user_index(request):
     }
 
     return render(request, 'hn_follow_app/hn_user_index.html', context)
+
+def hn_user_delete(request, username):
+    if request.method == 'POST':
+        hn_user = HnUser.objects.get(username=username)
+        hn_user.delete()
+        return HttpResponseRedirect('/users')
+
+    context = {
+        'username': username,
+    }
+
+    return render(request, 'hn_follow_app/hn_user_delete.html', context)

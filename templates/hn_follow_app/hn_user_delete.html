@@ -1,0 +1,14 @@
+{% extends 'hn_follow_app/base.html' %}
+{% block header %}Delete User{% endblock header %}
+{% block content %}
+<div class="flex justify-between">
+    <p>Are you sure you want to delete user "{{ username }}"?</p>
+    <div>
+        <form action="" method="POST">
+            {% csrf_token %}
+            <button>Delete<button>
+            <a href="{% url 'hn_follow_app:users' %}">Cancel</a>
+        </form>
+    </div>
+</div>
+{% endblock content %}

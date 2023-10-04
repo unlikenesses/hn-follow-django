@@ -27,7 +27,7 @@
                         <a href="">Edit</a>
                     </td>
                     <td class="border border-slate-300 p-2">
-                        <a href="">Delete</a>
+                        <a href="{% url 'hn_follow_app:delete_user' username=hn_user.username %}">Delete</a>
                     </td>
                 </tr>
             {% endfor %}
