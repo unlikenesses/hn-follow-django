@@ -2,7 +2,7 @@ import json, math
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from .models import HnUser
-from .forms import AddHnUserForm
+from .forms import HnUserForm
 from .hn_service import HnService
 
 
@@ -54,7 +54,7 @@ def submissions(request):
 
 def hn_user_index(request):
     if request.method == "POST":
-        form = AddHnUserForm(request.POST)
+        form = HnUserForm(request.POST)
         if form.is_valid():
             hn_service = HnService()
             # try to get the HN user from the HN API
@@ -74,9 +74,9 @@ def hn_user_index(request):
             )
             hn_user.save()
 
-            return HttpResponseRedirect("users")
+            return HttpResponseRedirect("/users")
     else:
-        form = AddHnUserForm()
+        form = HnUserForm()
 
     hn_users = HnUser.objects.all()
 
@@ -88,6 +88,26 @@ def hn_user_index(request):
     }
 
     return render(request, "hn_follow_app/hn_user_index.html", context)
+
+
+def hn_user_edit(request, username):
+    hn_user = HnUser.objects.get(username=username)
+
+    if request.method == "POST":
+        form = HnUserForm(instance=hn_user, data=request.POST)
+        if form.is_valid():
+            form.save()
+
+            return HttpResponseRedirect("/users")
+    else:
+        form = HnUserForm(instance=hn_user)
+
+    context = {
+        "username": username,
+        "form": form,
+    }
+
+    return render(request, "hn_follow_app/hn_user_edit.html", context)
 
 
 def hn_user_delete(request, username):

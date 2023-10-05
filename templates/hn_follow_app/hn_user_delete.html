@@ -6,7 +6,7 @@
     <div>
         <form action="" method="POST">
             {% csrf_token %}
-            <button>Delete<button>
+            <button class="inline-flex items-center px-4 py-2 mr-2 bg-orange-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-orange-700 active:bg-orange-700 focus:outline-none focus:border-orange-700 focus:ring ring-orange-300 disabled:opacity-25 transition ease-in-out duration-150">Delete<button>
             <a href="{% url 'hn_follow_app:users' %}">Cancel</a>
         </form>
     </div>

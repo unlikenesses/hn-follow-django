@@ -1,0 +1,13 @@
+{% extends 'hn_follow_app/base.html' %}
+{% block header %}Edit User{% endblock header %}
+{% block content %}
+<div class="flex justify-between">
+    <form action="" method="POST">
+        {% csrf_token %} 
+        {{ form.as_div }}
+        <button type="submit" class="inline-flex items-center px-4 py-2 bg-orange-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-orange-700 active:bg-orange-700 focus:outline-none focus:border-orange-700 focus:ring ring-orange-300 disabled:opacity-25 transition ease-in-out duration-150">
+            Update User
+        </button>
+    </form>
+</div>
+{% endblock content %}
