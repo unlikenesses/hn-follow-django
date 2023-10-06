@@ -1,11 +1,13 @@
 import json, math
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
 from .models import HnUser
 from .forms import HnUserForm
 from .hn_service import HnService
 
 
+@login_required
 def index(request):
     page = request.GET.get("page", 1)
     return render(
@@ -17,6 +19,7 @@ def index(request):
     )
 
 
+@login_required
 def submissions(request):
     page = int(request.GET.get("page", 1))
     perPage = 5
@@ -52,6 +55,7 @@ def submissions(request):
     return render(request, "hn_follow_app/submissions.html", context)
 
 
+@login_required
 def hn_user_index(request):
     if request.method == "POST":
         form = HnUserForm(request.POST)
@@ -90,6 +94,7 @@ def hn_user_index(request):
     return render(request, "hn_follow_app/hn_user_index.html", context)
 
 
+@login_required
 def hn_user_edit(request, username):
     hn_user = HnUser.objects.get(username=username)
 
@@ -110,6 +115,7 @@ def hn_user_edit(request, username):
     return render(request, "hn_follow_app/hn_user_edit.html", context)
 
 
+@login_required
 def hn_user_delete(request, username):
     if request.method == "POST":
         hn_user = HnUser.objects.get(username=username)
