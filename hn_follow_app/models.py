@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 
 class HnUser(models.Model):
@@ -7,6 +8,7 @@ class HnUser(models.Model):
     karma = models.IntegerField(null=True)
     submissions = models.JSONField(null=True)
     notes = models.TextField(null=True, blank=True)
+    user = models.ManyToManyField(User, related_name="hn_users")
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 

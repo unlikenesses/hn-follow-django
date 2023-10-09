@@ -27,7 +27,9 @@ def submissions(request):
     hn_service = HnService()
 
     # Get all HN users submission IDs, sorted
-    hn_users = HnUser.objects.values_list("username", flat=True)
+    hn_users = HnUser.objects.filter(user=request.user).values_list(
+        "username", flat=True
+    )
     submitted = hn_service.getAllSubmitted(hn_users)
     numSubmitted = len(submitted)
     numPages = math.ceil(numSubmitted / perPage)
@@ -61,28 +63,35 @@ def hn_user_index(request):
         form = HnUserForm(request.POST)
         if form.is_valid():
             hn_service = HnService()
-            # try to get the HN user from the HN API
-            user_from_api = hn_service.getHnUserDetailsFromAPI(
-                form.cleaned_data["username"]
-            )
-            if user_from_api is None:
-                raise Exception("User not found")
-            # add the user
-            submissions = json.dumps(user_from_api["submitted"])
-            hn_user = HnUser(
-                username=form.cleaned_data["username"],
-                about=user_from_api.get("about"),
-                karma=user_from_api["karma"],
-                submissions=submissions,
-                notes=form.cleaned_data["notes"],
-            )
-            hn_user.save()
+            # check to see if the HN user is already in the database, if so add this user to it
+            try:
+                hn_user = HnUser.objects.get(username=form.cleaned_data["username"])
+                hn_user.user.add(request.user)
+                hn_user.save()
+            except HnUser.DoesNotExist:
+                # try to get the HN user from the HN API
+                user_from_api = hn_service.getHnUserDetailsFromAPI(
+                    form.cleaned_data["username"]
+                )
+                if user_from_api is None:
+                    raise Exception("User not found")
+                # add the user
+                submissions = json.dumps(user_from_api["submitted"])
+                hn_user = HnUser(
+                    username=form.cleaned_data["username"],
+                    about=user_from_api.get("about"),
+                    karma=user_from_api["karma"],
+                    submissions=submissions,
+                    notes=form.cleaned_data["notes"],
+                )
+                hn_user.save()
+                hn_user.user.add(request.user)
 
             return HttpResponseRedirect("/users")
     else:
         form = HnUserForm()
 
-    hn_users = HnUser.objects.all()
+    hn_users = HnUser.objects.filter(user=request.user).all()
 
     context = {
         "hn_users": hn_users,
