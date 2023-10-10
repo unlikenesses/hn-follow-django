@@ -1,5 +1,5 @@
 import json, math
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, Http404
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from .models import HnUser
@@ -106,6 +106,8 @@ def hn_user_index(request):
 @login_required
 def hn_user_edit(request, username):
     hn_user = HnUser.objects.get(username=username)
+    if not hn_user.user.filter(username=request.user).exists():
+        raise Http404
 
     if request.method == "POST":
         form = HnUserForm(instance=hn_user, data=request.POST)
@@ -126,8 +128,10 @@ def hn_user_edit(request, username):
 
 @login_required
 def hn_user_delete(request, username):
+    hn_user = HnUser.objects.get(username=username)
+    if not hn_user.user.filter(username=request.user).exists():
+        raise Http404
     if request.method == "POST":
-        hn_user = HnUser.objects.get(username=username)
         hn_user.delete()
         return HttpResponseRedirect("/users")
 
