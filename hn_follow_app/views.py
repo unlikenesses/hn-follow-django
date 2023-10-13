@@ -1,4 +1,4 @@
-import json, math
+import math
 from django.http import HttpResponseRedirect, Http404
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
@@ -63,29 +63,7 @@ def hn_user_index(request):
         form = HnUserForm(request.POST)
         if form.is_valid():
             hn_service = HnService()
-            # check to see if the HN user is already in the database, if so add this user to it
-            try:
-                hn_user = HnUser.objects.get(username=form.cleaned_data["username"])
-                hn_user.user.add(request.user)
-                hn_user.save()
-            except HnUser.DoesNotExist:
-                # try to get the HN user from the HN API
-                user_from_api = hn_service.getHnUserDetailsFromAPI(
-                    form.cleaned_data["username"]
-                )
-                if user_from_api is None:
-                    raise Exception("User not found")
-                # add the user
-                submissions = json.dumps(user_from_api["submitted"])
-                hn_user = HnUser(
-                    username=form.cleaned_data["username"],
-                    about=user_from_api.get("about"),
-                    karma=user_from_api["karma"],
-                    submissions=submissions,
-                    notes=form.cleaned_data["notes"],
-                )
-                hn_user.save()
-                hn_user.user.add(request.user)
+            hn_service.addHnUserToUser(form.cleaned_data, request.user)
 
             return HttpResponseRedirect("/users")
     else:

@@ -1,11 +1,12 @@
-import requests, json
+import json
 from datetime import datetime
 from .models import HnUser, HnSubmission
+from .hn_client import HnClient
 
 
 class HnService:
     def __init__(self):
-        self.base_url = "https://hacker-news.firebaseio.com/v0"
+        self._client = HnClient()
 
     def getAllSubmitted(self, usernames):
         submitted = []
@@ -19,17 +20,13 @@ class HnService:
         user = HnUser.objects.get(username=username)
         return user
 
-    def getHnUserDetailsFromAPI(self, username):
-        response = requests.get(self.base_url + "/user/" + username + ".json")
-        return response.json()
-
     def getSubmissions(self, submissionIds):
         submissions = []
         for submissionId in submissionIds:
             try:
                 submission = self.getSubmissionFromDb(submissionId)
             except HnSubmission.DoesNotExist:
-                submissionFromApi = self.getSubmissionFromAPI(submissionId)
+                submissionFromApi = self._client.getSubmissionFromAPI(submissionId)
                 # Save it in the db:
                 submission = HnSubmission(
                     id=submissionId,
@@ -49,6 +46,25 @@ class HnService:
         submission = HnSubmission.objects.get(id=submissionId)
         return submission
 
-    def getSubmissionFromAPI(self, submissionId):
-        response = requests.get(self.base_url + "/item/" + str(submissionId) + ".json")
-        return response.json()
+    def addHnUserToUser(self, form_data, user):
+        # check to see if the HN user is already in the database, if so add this user to it
+        try:
+            hn_user = HnUser.objects.get(username=form_data["username"])
+            hn_user.user.add(user)
+            hn_user.save()
+        except HnUser.DoesNotExist:
+            # try to get the HN user from the HN API
+            user_from_api = self._client.getHnUserDetailsFromAPI(form_data["username"])
+            if user_from_api is None:
+                raise Exception("User not found")
+            # add the user
+            submissions = json.dumps(user_from_api["submitted"])
+            hn_user = HnUser(
+                username=form_data["username"],
+                about=user_from_api.get("about"),
+                karma=user_from_api["karma"],
+                submissions=submissions,
+                notes=form_data["notes"],
+            )
+            hn_user.save()
+            hn_user.user.add(user)
