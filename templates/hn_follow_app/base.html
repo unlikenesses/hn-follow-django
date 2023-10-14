@@ -27,12 +27,8 @@
                         {% if user.is_authenticated %}
                         <!-- Navigation Links -->
                         <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                            <a href="{% url 'hn_follow_app:index' %}" class="inline-flex items-center px-1 pt-1 border-b-2 border-orange-400 text-sm font-medium leading-5 text-gray-900 focus:outline-none focus:border-orange-700 transition duration-150 ease-in-out">
-                                Stream
-                            </a>
-                            <a href="{% url 'hn_follow_app:users' %}" class="inline-flex items-center px-1 pt-1 border-b-2 border-orange-400 text-sm font-medium leading-5 text-gray-900 focus:outline-none focus:border-orange-700 transition duration-150 ease-in-out">
-                                HN Users
-                            </a>
+                            {% include "./components/nav_link.html" with name="Stream" destinationUrl="hn_follow_app:index" destinationPage="index" %}
+                            {% include "./components/nav_link.html" with name="HN Users" destinationUrl="hn_follow_app:users" destinationPage="users" %}
                         </div>
                         {% endif %}
                     </div>

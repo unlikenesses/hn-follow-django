@@ -15,6 +15,7 @@ def index(request):
         "hn_follow_app/index.html",
         {
             "page": page,
+            "current": "index",
         },
     )
 
@@ -76,6 +77,7 @@ def hn_user_index(request):
         "may_add_more": True,
         "max_note_length": 200,
         "form": form,
+        "current": "users",
     }
 
     return render(request, "hn_follow_app/hn_user_index.html", context)
@@ -99,6 +101,7 @@ def hn_user_edit(request, username):
     context = {
         "username": username,
         "form": form,
+        "current": "users",
     }
 
     return render(request, "hn_follow_app/hn_user_edit.html", context)
@@ -115,6 +118,7 @@ def hn_user_delete(request, username):
 
     context = {
         "username": username,
+        "current": "users",
     }
 
     return render(request, "hn_follow_app/hn_user_delete.html", context)
